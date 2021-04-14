@@ -1,0 +1,28 @@
+<html>
+<script>
+window.onload = function() {
+    var image = document.getElementById("img");
+    var image2 = document.getElementById("img2");
+    var image3 = document.getElementById("img3");
+
+    function updateImage() {
+        image.src = image.src.split("?")[0] + "?" + new Date().getTime();
+        image2.src = image2.src.split("?")[0] + "?" + new Date().getTime();
+        image3.src = image3.src.split("?")[0] + "?" + new Date().getTime();
+    }
+
+    setInterval(updateImage, 200);
+}
+</script>
+
+<body>
+<h1> Stereo Garage Camera </h1>
+<p>
+<img id="img" src="output.png"/>
+<p>
+<img id="img2" src="left.png"/>
+<p>
+<img id="img3" src="right.png"/>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+# docker-compose up -d
+# docker-compose logs -f
+# docker exec -it stereogaragecam_garagecam_1 /bin/bash
+# access IP:8081
+
+
+version: '3.4'
+
+services:
+  garagecam:
+    image: jjanzic/docker-python3-opencv
+    #ports:
+    #  - 8080:80
+    #restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - /root/stereogaragecam/data:/data
+  apache:
+    image: bitnami/apache:latest
+    ports:
+      - 8081:8080
+    stdin_open: true
+    tty: true
+    volumes:
+      - /root/stereogaragecam/data/www:/app
