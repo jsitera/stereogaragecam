@@ -1,16 +1,8 @@
 import numpy as np
 import cv2
 import os
-from urllib.request import urlopen
 from datetime import datetime
 
-def url_to_image(url):
-	# download the image, convert it to a NumPy array, and then read
-	# it into OpenCV format
-	resp = urlopen(url)
-	image = np.asarray(bytearray(resp.read()), dtype="uint8")
-	image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-	return image
 
 def hconcat_resize_min(im_list, interpolation=cv2.INTER_CUBIC):
     h_min = min(im.shape[0] for im in im_list)
@@ -29,12 +21,21 @@ def normalize_image(image, width):
 
 desiredwidth = 500
 
+# camera streams
+capL = cv2.VideoCapture()
+capL.open('http://10.0.0.197:4747/video')
+
+capP = cv2.VideoCapture()
+capP.open('http://10.0.0.109:8080/video')
+
+
+
 while(True):
-  # read image from URL
-  imageL1 = url_to_image('http://10.0.0.197:8080/shot.jpg')
+  # read image from stream
+  ret, imageL1 = capL.read()
   imageL1 = normalize_image(imageL1,desiredwidth)
 
-  imageP1 = url_to_image('http://10.0.0.109:8080/shot.jpg')
+  ret, imageP1 = capP.read()
   imageP1 = normalize_image(imageP1,desiredwidth)
 
   # crop
